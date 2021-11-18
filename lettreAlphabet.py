@@ -1,15 +1,15 @@
 
 from PyQt6.QtWidgets import QWidget, QLineEdit, QHBoxLayout, QLabel
 
-class Reflecteur(QWidget):
+class lettreAlphabet(QWidget):
     def __init__(self):
         super().__init__()
       
-        self.nombre = [25,23,21,19,17,15,13,11,9,7,5,3,1,-1,-3,-5,-7,-9,-11,-13,-15,-17,-19,-21,-23,-25]
+        self.lettres = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
         self.ref_composants = []
 
-        for x in self.nombre:
-            lineEdit = QLineEdit(str(x),self)
+        for lettre in self.lettres:
+            lineEdit = QLineEdit(lettre,self)
             lineEdit.setReadOnly(True)
             self.ref_composants.append(lineEdit)
          
@@ -18,9 +18,6 @@ class Reflecteur(QWidget):
         for w in self.ref_composants:
             layout.addWidget(w)
         
-        label = QLabel()
-        label.setText("Réflecteur")
-        layout.addWidget(label)
-        layout.setContentsMargins(0,0,0,10)
+        layout.setContentsMargins(0,10,0,10)
         
 

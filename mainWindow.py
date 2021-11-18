@@ -25,6 +25,10 @@ from PyQt6.QtGui import QGuiApplication
 
 from reflecteur import Reflecteur
 from rotor import Rotor
+from lettreAlphabet import lettreAlphabet 
+from cle_input import cle_input
+from texte_input import texte_input
+from command_buttons import command_buttons
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -41,11 +45,21 @@ class MainWindow(QMainWindow):
         rotor1 = Rotor(1,[12,-1,23,10,2,14,5,-5,9,-2,-13,10,-2,-8,+10,-6,+6,-16,+2,-1,-17,-5,-14,-9,-20,-10],[1,16,5,17,20,8,-2,2,14,6,2,-5,-12,-10,9,10,5,-9,1,-14,-2,-10,-6,13,-10,-23] )
         rotor2 = Rotor(2,[12,-1,23,10,2,14,5,-5,9,-2,-13,10,-2,-8,+10,-6,+6,-16,+2,-1,-17,-5,-14,-9,-20,-10],[1,16,5,17,20,8,-2,2,14,6,2,-5,-12,-10,9,10,5,-9,1,-14,-2,-10,-6,13,-10,-23] )
         rotor3 = Rotor(3,[12,-1,23,10,2,14,5,-5,9,-2,-13,10,-2,-8,+10,-6,+6,-16,+2,-1,-17,-5,-14,-9,-20,-10],[1,16,5,17,20,8,-2,2,14,6,2,-5,-12,-10,9,10,5,-9,1,-14,-2,-10,-6,13,-10,-23] )
-        
+        lettres = lettreAlphabet()
+        cleInput = cle_input()
+        texteInput_Encryption = texte_input(True)
+        commandButtons = command_buttons()
+        texteInput_Decryption = texte_input(False)
+
         main_layout.addWidget(reflect)
         main_layout.addWidget(rotor1)
         main_layout.addWidget(rotor2)
         main_layout.addWidget(rotor3)
+        main_layout.addWidget(lettres)
+        main_layout.addWidget(cleInput)
+        main_layout.addWidget(texteInput_Encryption)
+        main_layout.addWidget(commandButtons)
+        main_layout.addWidget(texteInput_Decryption)
         
         widget = QWidget()
         widget.setLayout(main_layout)
