@@ -19,7 +19,7 @@ class Reflecteur(QWidget):
             layout.addWidget(w)
         
         label = QLabel()
-        label.setText("Reflecteur")
+        label.setText("Réflecteur")
         layout.addWidget(label)
         
 
