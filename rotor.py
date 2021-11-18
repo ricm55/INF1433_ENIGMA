@@ -2,15 +2,11 @@
 from PyQt6.QtWidgets import QWidget, QLineEdit, QHBoxLayout, QLabel, QVBoxLayout
 
 class Rotor(QWidget):
-    def __init__(self,id,row1, row2):
+    def __init__(self,id,data_rotor):
         super().__init__()
         self.id = id
-        self.row1 = row1
-        self.row2 = row2
-
-        self.row1_composants = []
-        self.row2_composants = []
-        
+        self.rotor = data_rotor
+                
         layoutH = QHBoxLayout(self)
         layoutV = QVBoxLayout()
         layoutH_row1 = QHBoxLayout()
@@ -20,21 +16,18 @@ class Rotor(QWidget):
         layoutV.addLayout(layoutH_row2)
         layoutH.addLayout(layoutV)
 
-        for x in self.row1:
-            lineEdit = QLineEdit(str(x),self)
-            lineEdit.setReadOnly(True)
-            self.row1_composants.append(lineEdit)
-        
-        for w in self.row1_composants:
-            layoutH_row1.addWidget(w)
+        for idx, row in enumerate(self.rotor):
+            for nbre in row:
+                suffixe = ''
+                if nbre > 0:
+                    suffixe = '+'
+                lineEdit = QLineEdit(suffixe + str(nbre) ,self)
+                lineEdit.setReadOnly(True)
+                if idx == 0:
+                    layoutH_row1.addWidget(lineEdit)
+                else:
+                    layoutH_row2.addWidget(lineEdit)
 
-        for x in self.row2:
-            lineEdit = QLineEdit(str(x),self)
-            lineEdit.setReadOnly(True)
-            self.row2_composants.append(lineEdit)
-        
-        for w in self.row2_composants:
-            layoutH_row2.addWidget(w)
 
         label = QLabel()
         label.setText(f"Rotor {self.id}")
