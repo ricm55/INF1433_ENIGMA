@@ -20,6 +20,8 @@ from PyQt6.QtWidgets import (
     QWidget
 )
 
+from PyQt6.QtGui import QIcon
+
 #Importation des widgets custom 
 from customWidgets.reflecteur import Reflecteur
 from customWidgets.rotor import Rotor
@@ -33,6 +35,7 @@ class MainWindow(QMainWindow):
         super().__init__()
 
         self.setWindowTitle("enigma")
+        self.setWindowIcon(QIcon('img/enigma.jpg'))
         
         with open('rotors.json') as f:
             rotors_data = json.load(f)
@@ -42,8 +45,8 @@ class MainWindow(QMainWindow):
         #Creation des widgets de la fenetre
         reflect = Reflecteur(rotors_data["reflecteur"])
         rotor1 = Rotor(1,rotors_data["rotor 1"])
-        rotor2 = Rotor(2,rotors_data["rotor 2"] )
-        rotor3 = Rotor(3,rotors_data["rotor 3"] )
+        rotor2 = Rotor(2,rotors_data["rotor 2"])
+        rotor3 = Rotor(3,rotors_data["rotor 3"])
         lettres = lettreAlphabet()
         cleInput = cle_input()
         texteInput_Encryption = texte_input(True)

@@ -21,6 +21,7 @@ class lettreAlphabet(QWidget):
         for lettre in self.lettres:
             lineEdit = QLineEdit(lettre,self)
             lineEdit.setReadOnly(True)
+            lineEdit.setFixedWidth(40)
             self.lettres_composants.append(lineEdit)
             layout.addWidget(lineEdit)
         

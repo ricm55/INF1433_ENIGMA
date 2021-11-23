@@ -32,6 +32,7 @@ class Rotor(QWidget):
                     suffixe = '+'
                 lineEdit = QLineEdit(suffixe + str(nbre) ,self)
                 lineEdit.setReadOnly(True)
+                lineEdit.setFixedWidth(40)
                 if idx == 0:
                     layoutH_row1.addWidget(lineEdit)
                 else:
