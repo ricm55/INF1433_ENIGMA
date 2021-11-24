@@ -18,7 +18,6 @@ class Rotor(QWidget):
         for row in data_rotor:
             self.rotor.append(deque(row))
         
-
         self.edit = [[],[]]
 
         #Configurer les layouts  
@@ -51,6 +50,24 @@ class Rotor(QWidget):
         label = QLabel()
         label.setText(f"Rotor {self.id}")
         layoutH.addWidget(label)
+    
+    def updateAffichage(self):
+        iter_rotor = iter(self.rotor)
+        iter_edit = iter(self.edit)
+        continu = True
+        for y in range(0,2):
+            try:
+                iterateRotor = next(iter_rotor)
+                iterateEdit = next(iter_edit)
+            except:
+                print("exception declenche")
+                break
+
+            for idx,x in enumerate(iterateRotor):
+                iterateEdit[idx].setText(str(x))
+            
+    def initialiserAffichage(self):
+        pass
         
 
 

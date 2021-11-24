@@ -16,10 +16,14 @@ def configurerRotors(rotor1):
         elif "R3" in x:
             decalage3 = x[2]
     
-    #rotor1.rotor[0].rotate(decalage1)
-    #rotor1.rotor[1].rotate(decalage1)
+    #Decaler les rotors
+    rotor1.rotor[0].rotate(decalage1)
+    rotor1.rotor[1].rotate(decalage1)
+    print(f"decalage 1 {decalage1}")
     print(rotor1.rotor)
-    #update rotors
-
-    #update affichage rotors
     
+    #update l'affichage des rotors
+    rotor1.updateAffichage()
+
+def testRotor(rotor1):
+    print(rotor1.rotor)

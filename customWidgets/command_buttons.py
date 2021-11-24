@@ -18,14 +18,14 @@ class command_buttons(QWidget):
 
         #Creation des boutons
         self.ConfigurerRotors = QPushButton("Configurer Rotors")
-        Encrypter = QPushButton("Encrypter")
+        self.Encrypter = QPushButton("Encrypter")
         EtapeSuivante = QPushButton("Étape suivante")
         Decrypter = QPushButton("Décrypter")
 
         #Configurer les layouts
         layout = QHBoxLayout(self)
         layout.addWidget(self.ConfigurerRotors)
-        layout.addWidget(Encrypter)
+        layout.addWidget(self.Encrypter)
         layout.addWidget(EtapeSuivante)
         layout.addWidget(Decrypter)
 

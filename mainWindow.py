@@ -43,9 +43,9 @@ class MainWindow(QMainWindow):
 
         #Creation des widgets de la fenetre
         reflect = Reflecteur(storage.getReflecteur())
-        rotor3 = Rotor(1,storage.getRotor("rotor 3"))
+        rotor3 = Rotor(3,storage.getRotor("rotor 3"))
         rotor2 = Rotor(2,storage.getRotor("rotor 2"))
-        rotor1 = Rotor(3,storage.getRotor("rotor 1"))
+        rotor1 = Rotor(1,storage.getRotor("rotor 1"))
         lettres = lettreAlphabet()
         cleInput = cle_input()
         texteInput_Encryption = texte_input(True)
@@ -54,6 +54,7 @@ class MainWindow(QMainWindow):
 
         #Envoie des signals entre widget
         commandButtons.ConfigurerRotors.clicked.connect(lambda: configRotors.configurerRotors(rotor1))
+        commandButtons.Encrypter.clicked.connect(lambda: configRotors.testRotor(rotor1))
 
         #Ajout des widgets dans le layout principal
         main_layout.addWidget(reflect)
