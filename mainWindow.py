@@ -30,34 +30,36 @@ from customWidgets.cle_input import cle_input
 from customWidgets.texte_input import texte_input
 from customWidgets.command_buttons import command_buttons
 
+import services.storage as storage
+import services.configurerRotors as configRotors
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
 
         self.setWindowTitle("enigma")
         self.setWindowIcon(QIcon('img/enigma.jpg'))
-        
-        with open('rotors.json') as f:
-            rotors_data = json.load(f)
 
         main_layout = QVBoxLayout()
 
         #Creation des widgets de la fenetre
-        reflect = Reflecteur(rotors_data["reflecteur"])
-        rotor1 = Rotor(1,rotors_data["rotor 1"])
-        rotor2 = Rotor(2,rotors_data["rotor 2"])
-        rotor3 = Rotor(3,rotors_data["rotor 3"])
+        reflect = Reflecteur(storage.getReflecteur())
+        rotor3 = Rotor(1,storage.getRotor("rotor 3"))
+        rotor2 = Rotor(2,storage.getRotor("rotor 2"))
+        rotor1 = Rotor(3,storage.getRotor("rotor 1"))
         lettres = lettreAlphabet()
         cleInput = cle_input()
         texteInput_Encryption = texte_input(True)
         commandButtons = command_buttons()
         texteInput_Decryption = texte_input(False)
 
+        #Envoie des signals entre widget
+        commandButtons.ConfigurerRotors.clicked.connect(lambda: configRotors.configurerRotors(rotor1))
+
         #Ajout des widgets dans le layout principal
         main_layout.addWidget(reflect)
-        main_layout.addWidget(rotor1)
-        main_layout.addWidget(rotor2)
         main_layout.addWidget(rotor3)
+        main_layout.addWidget(rotor2)
+        main_layout.addWidget(rotor1)
         main_layout.addWidget(lettres)
         main_layout.addWidget(cleInput)
         main_layout.addWidget(texteInput_Encryption)

@@ -8,6 +8,7 @@
 """
 
 from PyQt6.QtWidgets import QWidget, QLabel, QLineEdit, QHBoxLayout
+import services.storage as storage
 
 class cle_input(QWidget):
     def __init__(self):
@@ -16,14 +17,29 @@ class cle_input(QWidget):
         label = QLabel("Clé")
         
         #Creer le input pour l'utilisateur
-        edit = QLineEdit()
-        edit.setPlaceholderText("Zone pour saisir la clé sous forme de trois triplets. Exemple: (R3,G,+7)(R1,D,-6)(R2,D,+5)")
-        edit.setMaxLength(10)
+        self.edit = QLineEdit()
+        self.edit.setPlaceholderText("Zone pour saisir la clé sous forme de trois triplets. Exemple: (R3,G,+7)(R1,D,-6)(R2,D,+5)")
+        self.edit.setMaxLength(30)
+        #self.edit.setMaximumWidth(100)
+        self.edit.editingFinished.connect(self.sauvegarderCle)
 
         #Configurer les layouts
         layout = QHBoxLayout(self)
         layout.addWidget(label)
-        layout.addWidget(edit)
+        layout.addWidget(self.edit)
         
         #Gerer les espacements entre les differents elements
-        layout.setContentsMargins(550,80,550,10)
+        layout.setContentsMargins(380,80,380,10)
+
+
+    def sauvegarderCle(self):
+        print("save la cle")
+        success = storage.setCle(str(self.edit.text()))
+        if success == True:
+            self.cle_valide()
+        else:
+            self.cle_invalide()
+    def cle_invalide(self):
+        self.edit.setStyleSheet("border: 1px solid red");
+    def cle_valide(self):
+        self.edit.setStyleSheet("border: 1px solid blue");

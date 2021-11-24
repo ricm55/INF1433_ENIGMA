@@ -7,12 +7,19 @@
 * Copyright 2021 @Marc-Antoine Ricard
 """
 from PyQt6.QtWidgets import QWidget, QLineEdit, QHBoxLayout, QLabel, QVBoxLayout
+from collections import deque #Facilite les futurs decalage
 
 class Rotor(QWidget):
     def __init__(self,id,data_rotor):
         super().__init__()
         self.id = id
-        self.rotor = data_rotor
+        
+        self.rotor = []
+        for row in data_rotor:
+            self.rotor.append(deque(row))
+        
+
+        self.edit = [[],[]]
 
         #Configurer les layouts  
         layoutH = QHBoxLayout(self)
@@ -34,8 +41,10 @@ class Rotor(QWidget):
                 lineEdit.setReadOnly(True)
                 lineEdit.setFixedWidth(40)
                 if idx == 0:
+                    self.edit[0].append(lineEdit)
                     layoutH_row1.addWidget(lineEdit)
                 else:
+                    self.edit[1].append(lineEdit)
                     layoutH_row2.addWidget(lineEdit)
 
         #Inscrire de quel rotor il s'agit
