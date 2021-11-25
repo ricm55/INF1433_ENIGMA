@@ -54,7 +54,6 @@ class Rotor(QWidget):
     def updateAffichage(self):
         iter_rotor = iter(self.rotor)
         iter_edit = iter(self.edit)
-        continu = True
         for y in range(0,2):
             try:
                 iterateRotor = next(iter_rotor)
@@ -64,7 +63,10 @@ class Rotor(QWidget):
                 break
 
             for idx,x in enumerate(iterateRotor):
-                iterateEdit[idx].setText(str(x))
+                prefix = ''
+                if x>0:
+                    prefix = '+'
+                iterateEdit[idx].setText(prefix + str(x))
             
     def initialiserAffichage(self):
         pass

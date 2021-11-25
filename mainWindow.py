@@ -53,7 +53,7 @@ class MainWindow(QMainWindow):
         texteInput_Decryption = texte_input(False)
 
         #Envoie des signals entre widget
-        commandButtons.ConfigurerRotors.clicked.connect(lambda: configRotors.configurerRotors(rotor1))
+        commandButtons.ConfigurerRotors.clicked.connect(lambda: configRotors.configurerRotors(rotor1,rotor2,rotor3))
         commandButtons.Encrypter.clicked.connect(lambda: configRotors.testRotor(rotor1))
 
         #Ajout des widgets dans le layout principal
