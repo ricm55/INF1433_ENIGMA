@@ -28,38 +28,12 @@ def configurerRotors(rotor1,rotor2,rotor3):
         rotor[1] = deque(rotor[1])
         rotor[1].rotate(decalage[idx])
 
-    #Decaler les rotors
-    """
-    decalage = [decalage1, decalage2, decalage3]
-    for idx,rotor in enumerate(init_rotors):
-        rotor[0].rotate(decalage[idx])
-        rotor[1].rotate(decalage[idx])
-    """
     #Changer la valeur des rotors actifs dans le systeme
     rotor_real = [rotor1,rotor2,rotor3]
     for idx, rotor in enumerate(init_rotors):
         rotor_real[idx].rotor[0] = rotor[0]
         rotor_real[idx].rotor[1] = rotor[1]
-    """   
-    rotor1.rotor[0] = init_rotors[0][0]
-    rotor1.rotor[1] = init_rotors[0][1]
 
-    rotor2.rotor[0] = init_rotors[1][0]
-    rotor2.rotor[1] = init_rotors[1][1]
-
-    rotor3.rotor[0] = init_rotors[2][0]
-    rotor3.rotor[1] = init_rotors[2][1]
-    """
-    """
-    rotor1.rotor[0].rotate(decalage1)
-    rotor1.rotor[1].rotate(decalage1)
-
-    rotor2.rotor[0].rotate(decalage2)
-    rotor2.rotor[1].rotate(decalage2)
-
-    rotor3.rotor[0].rotate(decalage3)
-    rotor3.rotor[1].rotate(decalage3)
-    """
     #update l'affichage des rotors
     rotor1.updateAffichage()
     rotor2.updateAffichage()
