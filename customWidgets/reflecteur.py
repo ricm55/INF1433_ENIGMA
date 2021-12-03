@@ -26,6 +26,7 @@ class Reflecteur(QWidget):
             lineEdit = QLineEdit(suffixe + str(x),self)
             lineEdit.setReadOnly(True)
             lineEdit.setFixedWidth(40)
+            self.ref_composants.append(lineEdit)
             layout.addWidget(lineEdit)
         
         #Inscrire sur la fenetre qu'il s'agit d'un reflecteur

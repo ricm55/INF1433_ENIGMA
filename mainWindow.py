@@ -6,6 +6,7 @@
 * 
 * Copyright 2021 @Marc-Antoine Ricard
 """
+
 import os #installer pyQt6 pour l'interface graphique
 import sys # Obtenir les arguments venant de la ligne de commande
 import json # Permet de lire les fichiers de configuration comme les rotors ou la clé
@@ -32,12 +33,15 @@ from customWidgets.command_buttons import command_buttons
 
 import services.storage as storage
 import services.configurerRotors as configRotors
+import services.crypto as crypto
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
 
         self.setWindowTitle("enigma")
         self.setWindowIcon(QIcon('img/enigma.jpg'))
+
+
 
         main_layout = QVBoxLayout()
 
@@ -52,10 +56,15 @@ class MainWindow(QMainWindow):
         commandButtons = command_buttons()
         texteInput_Decryption = texte_input(False)
 
+        #Creation de l'objet cryptographie
+        crypt = crypto.Crypto(lettres,rotor1,rotor2,rotor3,reflect,texteInput_Encryption,texteInput_Decryption)
+
         #Envoie des signals entre widget
         commandButtons.ConfigurerRotors.clicked.connect(lambda: configRotors.configurerRotors(rotor1,rotor2,rotor3))
-        commandButtons.Encrypter.clicked.connect(lambda: configRotors.testRotor(rotor1))
-
+        commandButtons.Encrypter.clicked.connect(lambda: crypt.encryption())
+        commandButtons.EtapeSuivante.clicked.connect(lambda: crypt.etapeSuivante())
+        commandButtons.Decrypter.clicked.connect(lambda: crypt.decryption())
+        
         #Ajout des widgets dans le layout principal
         main_layout.addWidget(reflect)
         main_layout.addWidget(rotor3)
@@ -71,6 +80,7 @@ class MainWindow(QMainWindow):
         widget = QWidget()
         widget.setLayout(main_layout)
         self.setCentralWidget(widget)
+
 
 if __name__ == "__main__":
     #Creation de l'application

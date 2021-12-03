@@ -14,13 +14,13 @@ class texte_input(QWidget):
         super().__init__()
         
         #Definir le message de a l'utilisateur dependament s'il doit encrypte ou non
-        edit = QTextEdit()
+        self.edit = QTextEdit()
         if encrypter:
-            edit.setPlaceholderText("Zone de textes pour taper le message à encrypter ou pour afficher le résultat de décryption")
+            self.edit.setPlaceholderText("Zone de textes pour taper le message à encrypter ou pour afficher le résultat de décryption")
         else:
-            edit.setPlaceholderText("Zone de textes pour taper le message à décrypter ou pour afficher le résultat d'encryption")
+            self.edit.setPlaceholderText("Zone de textes pour taper le message à décrypter ou pour afficher le résultat d'encryption")
         
         layout = QHBoxLayout(self)
-        layout.addWidget(edit)
+        layout.addWidget(self.edit)
         
         #layout.setContentsMargins(550,80,550,10)

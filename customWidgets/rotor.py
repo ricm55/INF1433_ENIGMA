@@ -17,7 +17,6 @@ class Rotor(QWidget):
         self.rotor = []
         for row in data_rotor:
             self.rotor.append(deque(row))
-        
         self.edit = [[],[]]
 
         #Configurer les layouts  
