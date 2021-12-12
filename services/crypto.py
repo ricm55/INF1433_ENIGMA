@@ -32,6 +32,9 @@ class Crypto:
         self.rotor_decalage = 0
 
         self.resetEncryption = False
+        
+        #Decide si l'etape suivante est l'encryption d'un caractere ou simplement un decalage
+        self.etapeSuivante_EncrypteCaractere = True
     def encryption(self):
         
         if self.resetEncryption:
@@ -110,12 +113,10 @@ class Crypto:
         #L'utilisateur n'a choisi aucun mode d'encryption
         if self.mode == "NEUTRE":
             return
-
         self.NettoyerAffichage()
         
-        # -------------- Effectuer le decalage -------------
-        """
-        if firstStep == False:
+        #Decaler le rotor
+        if self.etapeSuivante_EncrypteCaractere != True:
             #Obtenir la direction du decalage
             directionDecalage = self.cle[self.rotor_decalage][1]
             rotor_a_decaler = self.cle[self.rotor_decalage][0]
@@ -144,9 +145,12 @@ class Crypto:
             self.decalage+=1
             if self.decalage == 26:
                 self.rotor_decalage+=1
+                self.decalage = 0
                 if self.rotor_decalage >2:
-                    self.rotor_decalage == 0
-        """
+                    self.rotor_decalage = 0
+            self.etapeSuivante_EncrypteCaractere = True
+            return
+
         #Recuperer la lettre a encrypter
         lettreAEncrypt = self.texteATraiter[self.compteurLettres]
 
@@ -184,14 +188,8 @@ class Crypto:
         print(f"LA LETTRE FINAL: {numCase}")
         self.colorierComposant(self.lettres.lettres_composants[numCase],range_rotor)
         
-        #Mettre la lettre final dans le output
-            
-        #Ajuster les decalages pour la suite
-        self.decalage+=1
-        if self.decalage == 26:
-            self.rotor_decalage+=1
-            if self.rotor_decalage >2:
-                self.rotor_decalage == 0        
+        #Mettre la prochaine etape comme un simple decalage
+        self.etapeSuivante_EncrypteCaractere = False
 
         if self.mode == "ENCRYPT":
             self.texteInput_Decryption.edit.insertPlainText(self.lettres.lettres[numCase])
@@ -255,6 +253,7 @@ class Crypto:
         self.decalage = 0
         self.rotor_decalage = 0
         self.compteurLettres = None
+        self.etapeSuivante_EncrypteCaractere = True
     def resetInterface(self):
         #Clean les input / output
         self.texteInput_Encryption.edit.setText("")
