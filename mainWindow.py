@@ -41,8 +41,6 @@ class MainWindow(QMainWindow):
         self.setWindowTitle("enigma")
         self.setWindowIcon(QIcon('img/enigma.jpg'))
 
-
-
         main_layout = QVBoxLayout()
 
         #Creation des widgets de la fenetre
@@ -57,10 +55,10 @@ class MainWindow(QMainWindow):
         texteInput_Decryption = texte_input(False)
 
         #Creation de l'objet cryptographie
-        crypt = crypto.Crypto(lettres,rotor1,rotor2,rotor3,reflect,texteInput_Encryption,texteInput_Decryption)
+        crypt = crypto.Crypto(lettres,rotor1,rotor2,rotor3,reflect,texteInput_Encryption,texteInput_Decryption,commandButtons,cleInput)
 
         #Envoie des signals entre widget
-        commandButtons.ConfigurerRotors.clicked.connect(lambda: configRotors.configurerRotors(rotor1,rotor2,rotor3))
+        commandButtons.ConfigurerRotors.clicked.connect(lambda: configRotors.configurerRotors(rotor1,rotor2,rotor3,cleInput))
         commandButtons.Encrypter.clicked.connect(lambda: crypt.encryption())
         commandButtons.EtapeSuivante.clicked.connect(lambda: crypt.etapeSuivante())
         commandButtons.Decrypter.clicked.connect(lambda: crypt.decryption())
@@ -88,3 +86,6 @@ if __name__ == "__main__":
     window = MainWindow()
     window.show()
     app.exec()
+
+    #Effacer la cle
+    storage.cleanCle()

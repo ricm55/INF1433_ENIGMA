@@ -1,11 +1,14 @@
 """
 Ce fichier contient les algorithmes d'encryption et de décryption
 """
+from re import match
 from PyQt6.QtGui import QColor
+
+import services.storage as storage
 
 #lettres,rotor1,rotor2,rotor3,reflect,texteInput_Encryption,texteInput_Decryption
 class Crypto:
-    def __init__(self,lettres,rotor1,rotor2,rotor3,reflect,texteInput_Encryption,texteInput_Decryption):
+    def __init__(self,lettres,rotor1,rotor2,rotor3,reflect,texteInput_Encryption,texteInput_Decryption,commandButtons,cleInput):
         self.mode = "NEUTRE"
         self.lettres = lettres
         self.rotor1 = rotor1
@@ -14,35 +17,115 @@ class Crypto:
         self.reflect = reflect
         self.texteInput_Encryption = texteInput_Encryption
         self.texteInput_Decryption = texteInput_Decryption
+        self.commandButtons = commandButtons
+        self.cleInput = cleInput
         
         self.texteATraiter = None
         self.compteurLettres = None
+        
+        self.cle = None
+
+        #Contient le nombre de fois qu'un rotor s'est fait decaler
+        self.decalage = 0
+
+        #Contient le rotor a decaler
+        self.rotor_decalage = 0
+
+        self.resetEncryption = False
     def encryption(self):
+        
+        if self.resetEncryption:
+            self.resetInterface()
+
+        cle = storage.getCle()
+        if cle == None:
+            self.cleInput.cle_invalide()
+            return
+        self.cle = cle
+
         self.mode = "ENCRYPT"
+
+        #Aucun test n'est a encrypter
         self.determineTexteATraiter()
+        if self.texteATraiter == None or self.texteATraiter == '':
+            self.mode = "NEUTRE"
+            return
+
+        #Graphique
+        self.commandButtons.Encrypter.setStyleSheet("background-color: yellow")
+        self.commandButtons.Decrypter.setStyleSheet("background-color: None")
+
         self.compteurLettres = 0
         
         #config l'interface
-        #Disable le output
-        
-        self.etapeSuivante()
+        #Disable le texteInput_Encryption
+        self.etapeSuivante(True)
         print("mode encryption")
 
     def decryption(self):
+        cle = storage.getCle()
+        if cle == None:
+            self.cleInput.cle_invalide()
+            return
+        
         self.mode = "DECRYPT"
+
+        #Aucun test n'est a decrypter
         self.determineTexteATraiter()
+        if self.texteATraiter == None:
+            self.mode = "NEUTRE"
+            return
+
+        #Graphique
+        self.commandButtons.Encrypter.setStyleSheet("background-color: None")
+        self.commandButtons.Decrypter.setStyleSheet("background-color: yellow")
+
         self.compteurLettres = len(self.texteATraiter) - 1
         self.etapeSuivante()
         print("mode decryption")
 
-    def etapeSuivante(self):
-
+    def etapeSuivante(self,firstStep=False):
+        
         #L'utilisateur n'a choisi aucun mode d'encryption
         if self.mode == "NEUTRE":
             return
 
         self.NettoyerAffichage()
+        
+        # -------------- Effectuer le decalage -------------
+        if firstStep == False:
+            #Obtenir la direction du decalage
+            directionDecalage = self.cle[self.rotor_decalage][1]
+            rotor_a_decaler = self.cle[self.rotor_decalage][0]
+            
+            if directionDecalage == 'D':
+                rotation = 1
+            else:
+                rotation = -1
+            
+            if rotor_a_decaler == 'R1':
+                    self.rotor1.rotor[0].rotate(rotation)
+                    self.rotor1.rotor[1].rotate(rotation)
+                    self.rotor1.updateAffichage()
 
+            if rotor_a_decaler == 'R2':
+                    self.rotor2.rotor[0].rotate(rotation)
+                    self.rotor2.rotor[1].rotate(rotation)
+                    self.rotor2.updateAffichage()
+
+            if rotor_a_decaler == 'R3':
+                    self.rotor3.rotor[0].rotate(rotation)
+                    self.rotor3.rotor[1].rotate(rotation)
+                    self.rotor3.updateAffichage()
+
+            #Ajuster les decalages pour la suite
+            self.decalage+=1
+            if self.decalage == 26:
+                self.rotor_decalage+=1
+                if self.rotor_decalage >2:
+                    self.rotor_decalage == 0
+
+        #Recuperer la lettre a encrypter
         lettreAEncrypt = self.texteATraiter[self.compteurLettres]
 
         #Permet de savoir quel range du rotor colorier
@@ -65,6 +148,7 @@ class Crypto:
         print(f"{numCase} + {self.reflect.reflecteur[numCase]}",end=' = ')
         numCase = ( numCase + self.reflect.reflecteur[numCase] ) % 26
         print(numCase)
+        
         #Changer la rangee des rotors
         range_rotor = 0
         
@@ -136,6 +220,16 @@ class Crypto:
             self.texteInput_Encryption.edit.setStyleSheet("border: 2px solid blue;")
         
         self.mode = "NEUTRE"
+        self.resetEncryption = True
+    def resetInterface(self):
+        #Clean les input / output
+        self.texteInput_Encryption.edit.setText("")
+        self.texteInput_Encryption.edit.setStyleSheet("border: None")
+        
+        self.texteInput_Decryption.edit.setText("")
+        self.texteInput_Decryption.edit.setStyleSheet("border: None")
+
+        
         
 
         

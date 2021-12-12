@@ -2,10 +2,14 @@
 import services.storage as storage
 from collections import deque
 
-def configurerRotors(rotor1,rotor2,rotor3):
+def configurerRotors(rotor1,rotor2,rotor3,cleInput):
     
     #Obtenir la cle et les decalages
     cle = storage.getCle()
+    if cle == None:
+        cleInput.cle_invalide()
+        return
+    
     for x in cle:
         if "R1" in x:
             decalage1 = x[2]

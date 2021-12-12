@@ -37,12 +37,14 @@ class command_buttons(QWidget):
         layout.setSpacing(50)
     
     def activerEncryption(self):
-        self.Decrypter.setStyleSheet("background-color: None")
-        self.Encrypter.setStyleSheet("background-color: yellow")
+        pass
+        #self.Decrypter.setStyleSheet("background-color: None")
+        #self.Encrypter.setStyleSheet("background-color: yellow")
     
     def activerDecryption(self):
-        self.Encrypter.setStyleSheet("background-color: None")
-        self.Decrypter.setStyleSheet("background-color: yellow")
+        pass
+        #self.Encrypter.setStyleSheet("background-color: None")
+        #self.Decrypter.setStyleSheet("background-color: yellow")
     
     
         

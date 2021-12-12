@@ -27,7 +27,8 @@ def getCle():
     f = open("cle.txt","r")
     cleFichier = f.read()
     f.close()
-    print(cleFichier)
+    if cleFichier == '':
+        return None
     
     cle = []
     #Position ou demarrer la recherche
@@ -41,7 +42,6 @@ def getCle():
         print(f"ajout de la cle {cle}")
         #demarreRecherche = cleFichier.index(')')+1
         demarreRecherche += 9
-    
     
     print(f'la cle: {cle}')
     #verifier la cle avec regex et mettre l'encadré en rouge
@@ -65,3 +65,9 @@ def setCle(cle):
         f.close()
         return valide
     return valide
+
+def cleanCle():
+    """
+    Permet d'effacer la cle
+    """
+    open('cle.txt', 'w').close()
