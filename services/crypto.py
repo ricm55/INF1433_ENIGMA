@@ -36,6 +36,9 @@ class Crypto:
         
         if self.resetEncryption:
             self.resetInterface()
+            self.resetEncryption = False
+            print("reseter pour encryption")
+            
 
         cle = storage.getCle()
         if cle == None:
@@ -48,12 +51,17 @@ class Crypto:
         #Aucun test n'est a encrypter
         self.determineTexteATraiter()
         if self.texteATraiter == None or self.texteATraiter == '':
+            self.texteInput_Encryption.edit.setStyleSheet("border: 2px solid red;")
+            self.texteInput_Decryption.edit.setStyleSheet("border: 1px solid black;")
             self.mode = "NEUTRE"
             return
+        else:
+            self.texteInput_Encryption.edit.setStyleSheet("border: 2px solid green;")
+            self.texteInput_Decryption.edit.setStyleSheet("border: 1px solid black;")
 
         #Graphique
-        self.commandButtons.Encrypter.setStyleSheet("background-color: yellow")
-        self.commandButtons.Decrypter.setStyleSheet("background-color: None")
+        self.commandButtons.Encrypter.setStyleSheet("color: red;")
+        self.commandButtons.Decrypter.setStyleSheet("color: None;")
 
         self.compteurLettres = 0
         
@@ -63,25 +71,38 @@ class Crypto:
         print("mode encryption")
 
     def decryption(self):
+        if self.resetEncryption:
+            self.resetInterface()
+            self.resetEncryption = False
+            print("reseter pour decryption")
+        
         cle = storage.getCle()
         if cle == None:
             self.cleInput.cle_invalide()
             return
-        
+        self.cle = cle
         self.mode = "DECRYPT"
 
         #Aucun test n'est a decrypter
         self.determineTexteATraiter()
-        if self.texteATraiter == None:
+        if self.texteATraiter == None or self.texteATraiter == '':
+            
+            self.texteInput_Decryption.edit.setStyleSheet("border: 2px solid red;")
+            self.texteInput_Encryption.edit.setStyleSheet("border: 1px solid black;")
             self.mode = "NEUTRE"
             return
+        else:
+            self.texteInput_Decryption.edit.setStyleSheet("border: 2px solid green;")
+            self.texteInput_Encryption.edit.setStyleSheet("border: 1px solid black;")
 
         #Graphique
-        self.commandButtons.Encrypter.setStyleSheet("background-color: None")
-        self.commandButtons.Decrypter.setStyleSheet("background-color: yellow")
+        self.commandButtons.Encrypter.setStyleSheet("color: None")
+        self.commandButtons.Decrypter.setStyleSheet("color: red")
+        
 
         self.compteurLettres = len(self.texteATraiter) - 1
-        self.etapeSuivante()
+        
+        self.etapeSuivante(True)
         print("mode decryption")
 
     def etapeSuivante(self,firstStep=False):
@@ -93,6 +114,7 @@ class Crypto:
         self.NettoyerAffichage()
         
         # -------------- Effectuer le decalage -------------
+        """
         if firstStep == False:
             #Obtenir la direction du decalage
             directionDecalage = self.cle[self.rotor_decalage][1]
@@ -117,14 +139,14 @@ class Crypto:
                     self.rotor3.rotor[0].rotate(rotation)
                     self.rotor3.rotor[1].rotate(rotation)
                     self.rotor3.updateAffichage()
-
+            
             #Ajuster les decalages pour la suite
             self.decalage+=1
             if self.decalage == 26:
                 self.rotor_decalage+=1
                 if self.rotor_decalage >2:
                     self.rotor_decalage == 0
-
+        """
         #Recuperer la lettre a encrypter
         lettreAEncrypt = self.texteATraiter[self.compteurLettres]
 
@@ -154,15 +176,23 @@ class Crypto:
         
         #Colorier la descente
         for x in range(2,-1,-1):
-            valCalcule = composants[x].rotor[range_rotor][numCase]
+            valCalcule = composants[x].rotor[range_rotor][numCase] %26
             self.colorierComposant(composants[x].edit[range_rotor][numCase],range_rotor)
-            numCase = valCalcule + numCase
+            numCase = (valCalcule + numCase ) %26
         
         #Colorier la lettre final
+        print(f"LA LETTRE FINAL: {numCase}")
         self.colorierComposant(self.lettres.lettres_composants[numCase],range_rotor)
         
         #Mettre la lettre final dans le output
-        
+            
+        #Ajuster les decalages pour la suite
+        self.decalage+=1
+        if self.decalage == 26:
+            self.rotor_decalage+=1
+            if self.rotor_decalage >2:
+                self.rotor_decalage == 0        
+
         if self.mode == "ENCRYPT":
             self.texteInput_Decryption.edit.insertPlainText(self.lettres.lettres[numCase])
             self.compteurLettres +=1
@@ -175,8 +205,8 @@ class Crypto:
         if self.compteurLettres == len(self.texteATraiter) or self.compteurLettres <0:
             print("Fini l'encryption")
             self.finaliserEncryption()
-            self.mode = "NEUTRE"
             return
+
     def determineTexteATraiter(self):
         #Obtenir le input de l'utilisateur
         if self.mode == "ENCRYPT":
@@ -221,13 +251,22 @@ class Crypto:
         
         self.mode = "NEUTRE"
         self.resetEncryption = True
+        self.texteATraiter = None
+        self.decalage = 0
+        self.rotor_decalage = 0
+        self.compteurLettres = None
     def resetInterface(self):
         #Clean les input / output
         self.texteInput_Encryption.edit.setText("")
-        self.texteInput_Encryption.edit.setStyleSheet("border: None")
+        self.texteInput_Encryption.edit.setStyleSheet("border:1px solid black")
         
         self.texteInput_Decryption.edit.setText("")
-        self.texteInput_Decryption.edit.setStyleSheet("border: None")
+        self.texteInput_Decryption.edit.setStyleSheet("border:1px solid black")
+
+        self.commandButtons.Encrypter.setStyleSheet("color: None")
+        self.commandButtons.Decrypter.setStyleSheet("color: None")
+
+        
 
         
         
