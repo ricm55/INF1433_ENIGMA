@@ -103,7 +103,8 @@ class Crypto:
         self.commandButtons.Decrypter.setStyleSheet("color: red")
         
 
-        self.compteurLettres = len(self.texteATraiter) - 1
+        self.compteurLettres = 0
+       
         
         self.etapeSuivante(True)
         print("mode decryption")
@@ -197,7 +198,7 @@ class Crypto:
         
         elif self.mode == "DECRYPT":
             self.texteInput_Encryption.edit.insertPlainText(self.lettres.lettres[numCase])
-            self.compteurLettres -=1
+            self.compteurLettres +=1
             print(f"compteur: {self.compteurLettres}")
         
         if self.compteurLettres == len(self.texteATraiter) or self.compteurLettres <0:
