@@ -12,7 +12,7 @@ import sys # Obtenir les arguments venant de la ligne de commande
 import json # Permet de lire les fichiers de configuration comme les rotors ou la clé
 
 #installation de l'interface graphique
-os.system("pip install pyQt6")
+#os.system("pip install pyQt6")
 
 from PyQt6.QtWidgets import (
     QApplication,
