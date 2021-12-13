@@ -1,12 +1,19 @@
-
 """
-This file can get and write data in json file 
+* Nom: storage
+* Date: 11/17/2021
+*
+* Description : Permet de controler le data (read / write)
+* 
+* Copyright 2021 @Marc-Antoine Ricard
 """
 
 import json
 import re
 
 def getRotor(rotor):
+    """
+    Obtiens un rotor
+    """
     with open('rotors.json') as f:
         rotors_data = json.load(f)
     try:
@@ -23,6 +30,9 @@ def getReflecteur():
         return None
 
 def getCle():
+    """
+    Obtient et converti la cle en tableau de 2 dimensions
+    """
     #Obtenir la cle dans le fichier
     f = open("cle.txt","r")
     cleFichier = f.read()
@@ -48,6 +58,9 @@ def getCle():
 
     return cle
 def setCle(cle):
+    """
+    Permet de modifier la cle
+    """
     #valider la cle
     #re.search (\(R\d,[G|D],[+|-]\d[0-6]?\)){3}
     valide = bool( re.search("(\(R[1-3],[G|D],[+|-]\d[0-6]?\)){3}",cle) )

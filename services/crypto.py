@@ -1,5 +1,10 @@
 """
-Ce fichier contient les algorithmes d'encryption et de décryption
+* Nom: storage
+* Date: 11/17/2021
+*
+* Description : Ce fichier contient les algorithmes d'encryption et de décryption
+* 
+* Copyright 2021 @Marc-Antoine Ricard
 """
 from re import match
 from PyQt6.QtGui import QColor
@@ -36,7 +41,9 @@ class Crypto:
         #Decide si l'etape suivante est l'encryption d'un caractere ou simplement un decalage
         self.etapeSuivante_EncrypteCaractere = True
     def encryption(self):
-        
+        """
+        Mettre l'application en mode encryption
+        """
         if self.resetEncryption:
             self.resetInterface()
             self.resetEncryption = False
@@ -74,6 +81,9 @@ class Crypto:
         print("mode encryption")
 
     def decryption(self):
+        """
+        Mettre l'application en mode decryption
+        """
         if self.resetEncryption:
             self.resetInterface()
             self.resetEncryption = False
@@ -88,8 +98,7 @@ class Crypto:
 
         #Aucun test n'est a decrypter
         self.determineTexteATraiter()
-        if self.texteATraiter == None or self.texteATraiter == '':
-            
+        if self.texteATraiter == None or self.texteATraiter == '':  
             self.texteInput_Decryption.edit.setStyleSheet("border: 2px solid red;")
             self.texteInput_Encryption.edit.setStyleSheet("border: 1px solid black;")
             self.mode = "NEUTRE"
@@ -102,7 +111,7 @@ class Crypto:
         self.commandButtons.Encrypter.setStyleSheet("color: None")
         self.commandButtons.Decrypter.setStyleSheet("color: red")
         
-
+        #Initialiser le compteur de lettres
         self.compteurLettres = 0
        
         
@@ -110,7 +119,9 @@ class Crypto:
         print("mode decryption")
 
     def etapeSuivante(self,firstStep=False):
-        
+        """
+        Permet d'encrypter ou de decrypter le caractere dont on est rendu dans la chaine
+        """
         #L'utilisateur n'a choisi aucun mode d'encryption
         if self.mode == "NEUTRE":
             return
@@ -118,6 +129,7 @@ class Crypto:
         
         #Decaler le rotor
         if self.etapeSuivante_EncrypteCaractere != True:
+            
             #Obtenir la direction du decalage
             directionDecalage = self.cle[self.rotor_decalage][1]
             rotor_a_decaler = self.cle[self.rotor_decalage][0]
@@ -207,13 +219,18 @@ class Crypto:
             return
 
     def determineTexteATraiter(self):
-        #Obtenir le input de l'utilisateur
+        """
+        Obtenir le input de l'utilisateur
+        """
         if self.mode == "ENCRYPT":
             self.texteATraiter = self.texteInput_Encryption.edit.toPlainText()
         elif self.mode == "DECRYPT":
             self.texteATraiter = self.texteInput_Decryption.edit.toPlainText()
     
     def colorierComposant(self,x,range_rotor):
+        """
+        Permet de colorier les composants des rotors et reflecteurs afin de tracer un chemin
+        """
         if range_rotor:
             x.setStyleSheet(
             "color:red;\
@@ -225,6 +242,9 @@ class Crypto:
             background-color:#E0E0E0;"
             )
     def NettoyerAffichage(self):
+        """
+        Effacer un chemin d'encryption pour la derniere lettre 
+        """
         #composants_a_nettoyer = [self.lettres.lettres_composants,self.rotor1,self.rotor2,self.rotor3,self.reflecteur.reflecteur]
         #Nettoyer les lettres
         for lettre in self.lettres.lettres_composants:
@@ -243,11 +263,15 @@ class Crypto:
             case.setStyleSheet("color:None;")
         
     def finaliserEncryption(self):
+        """
+        Lorsque l'encryption est fini, encadrer le message final
+        """
         if self.mode == "ENCRYPT":
             self.texteInput_Decryption.edit.setStyleSheet("border: 2px solid blue;")
         else:
             self.texteInput_Encryption.edit.setStyleSheet("border: 2px solid blue;")
         
+        #Reinitialiser les variables pour la prochaine encryption
         self.mode = "NEUTRE"
         self.resetEncryption = True
         self.texteATraiter = None
@@ -256,7 +280,9 @@ class Crypto:
         self.compteurLettres = None
         self.etapeSuivante_EncrypteCaractere = True
     def resetInterface(self):
-        #Clean les input / output
+        """
+        Effacer les input et output
+        """
         self.texteInput_Encryption.edit.setText("")
         self.texteInput_Encryption.edit.setStyleSheet("border:1px solid black")
         

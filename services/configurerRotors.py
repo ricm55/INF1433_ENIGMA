@@ -1,9 +1,18 @@
-
+"""
+* Nom: configurerRotors
+* Date: 11/17/2021
+*
+* Description : Contient tous les elements permettant de configurer les rotors
+* 
+* Copyright 2021 @Marc-Antoine Ricard
+"""
 import services.storage as storage
 from collections import deque
 
 def configurerRotors(rotor1,rotor2,rotor3,cleInput):
-    
+    """
+    Decale les rotors selon la cle inseré
+    """
     #Obtenir la cle et les decalages
     cle = storage.getCle()
     if cle == None:

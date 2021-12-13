@@ -33,6 +33,9 @@ class cle_input(QWidget):
 
 
     def sauvegarderCle(self):
+        """
+        Permet de sauvegarder la cle
+        """
         print("save la cle")
         success = storage.setCle(str(self.edit.text()))
         if success == True:
@@ -40,6 +43,12 @@ class cle_input(QWidget):
         else:
             self.cle_invalide()
     def cle_invalide(self):
+        """
+        Informer a l'utilisateur que la cle est invalide
+        """
         self.edit.setStyleSheet("border: 1px solid red");
     def cle_valide(self):
+        """
+        Informer a l'utilisateur que la cle est valide
+        """
         self.edit.setStyleSheet("border: 1px solid blue");

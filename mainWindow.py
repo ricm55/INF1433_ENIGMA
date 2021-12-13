@@ -35,6 +35,9 @@ import services.storage as storage
 import services.configurerRotors as configRotors
 import services.crypto as crypto
 class MainWindow(QMainWindow):
+    """
+    Fenetre principale de l'application
+    """
     def __init__(self):
         super().__init__()
 

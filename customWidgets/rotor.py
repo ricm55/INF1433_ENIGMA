@@ -51,6 +51,9 @@ class Rotor(QWidget):
         layoutH.addWidget(label)
     
     def updateAffichage(self):
+        """
+        Mettre a jour l'affichage des rotors dans la fenetre 
+        """
         iter_rotor = iter(self.rotor)
         iter_edit = iter(self.edit)
         for y in range(0,2):
